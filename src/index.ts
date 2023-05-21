@@ -13,18 +13,22 @@ const port = 3000;
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((error) => {
-    console.error('Failed to connect to MongoDB:', error);
-  });
+// mongoose
+//   .connect(process.env.MONGODB_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useCreateIndex: true,
+//   })
+//   .then(() => {
+//     console.log('Connected to MongoDB');
+//   })
+//   .catch((error) => {
+//     console.error('Failed to connect to MongoDB:', error);
+//   });
+
+mongoose.Promise = Promise;
+mongoose.connect(process.env.MONGODB_URI as string);
+mongoose.connection.on('error', (error: Error) => console.log(error));
 
 // Restaurant routes
 app.use('/api', restaurantRoutes);
